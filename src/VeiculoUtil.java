@@ -28,12 +28,17 @@ public class VeiculoUtil {
         return false;
     }
 
-    public static boolean veiculoAlocado(Veiculo veiculo) {
+    public static boolean veiculoAlocado(String placa) {
+        Veiculo veiculoAux = null;
+        for (Veiculo veiculo : veiculosRegistrados) {
+            if (veiculo.getPlaca().equals(placa)) {
+                veiculoAux = veiculo;
+            }
+        }
         for (Alocacao alocado : veiculosAlocados) {
-            if (alocado.getVeiculo() == veiculo)
+            if (alocado.getVeiculo() == veiculoAux)
                 return true;
         }
-
         return false;
     }
 
@@ -71,8 +76,7 @@ public class VeiculoUtil {
         do {
             System.out.print("insira a placa do veiculo: ");
             placa = entrada.nextLine();
-            
-        } while (!placaExiste(placa));
+        } while (!placaExiste(placa) && !veiculoAlocado(placa));
 
         for (Veiculo veiculo : veiculosRegistrados) {
             if (veiculo.getPlaca().equals(placa)) {
