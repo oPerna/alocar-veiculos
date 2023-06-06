@@ -21,9 +21,14 @@ public class VeiculoUtil {
     }
 
     public static void novoVeiculo() {
+        String placa;
         
-        System.out.println("Insira a placa");
-        String placa = entrada.nextLine();
+        do {
+            System.out.println("Insira a placa");
+            placa = entrada.nextLine();
+
+        } while (placaExiste(placa));
+        
 
         System.out.println("Insira o modelo");
         String modelo = entrada.nextLine();
@@ -36,6 +41,9 @@ public class VeiculoUtil {
 
         System.out.println("Insira a quilometragem");
         long quilometragem = entrada.nextLong();
+
+        Veiculo veiculo = new Veiculo(placa, modelo, ano, cor, quilometragem);
+        LocacaoDeVeiculos.add(veiculo);
     }
     
     public static void main(String[] args) throws Exception {
