@@ -8,6 +8,17 @@ public class VeiculoUtil {
 
     public static Scanner entrada = new Scanner(System.in);
 
+    public static void menu() {
+        System.out.println("----------------- MENU -----------------");
+        System.out.println("A. Cadastro de Veículos.");
+        System.out.println("B. Consulta de Veículos");
+        System.out.println("C. ");
+        System.out.println("D. ");
+        System.out.println("E. ");
+        System.out.println("----------------------------------------");
+        System.out.println("\nEscolha uma opção");
+    }
+
     public static boolean placaExiste(String placa) {
         for (Veiculo veiculo : veiculosRegistrados) {
             if (veiculo.getPlaca().equals(placa))
@@ -76,13 +87,8 @@ public class VeiculoUtil {
         char option;
 
         do {
-            System.out.println("A. Cadastro de Veículos.");
-            System.out.println("B. Alocação de Veículos.");
-            System.out.println("C. Consulta de Veículos.");
-            System.out.println("D. ");
-            System.out.println("E. ");
+            menu();
             option = entrada.next().toLowerCase().charAt(0);
-
             entrada.nextLine();
             
             switch (option) {
