@@ -6,7 +6,7 @@ public class Veiculo implements Serializable {
     private String modelo;
     private int ano;
     private String cor;
-    private int quilometragem;
+    private long quilometragem;
     
     
     public String getPlaca() {
@@ -36,8 +36,8 @@ public class Veiculo implements Serializable {
     public void setCor(String cor) {
         this.cor = cor;
     }
-    
-    public int getQuilometragem() {
+
+    public long getQuilometragem() {
         return quilometragem;
     }
     public void setQuilometragem(int quilometragem) {
