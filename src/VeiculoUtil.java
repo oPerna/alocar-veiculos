@@ -77,8 +77,8 @@ public class VeiculoUtil {
 
         do {
             System.out.println("A. Cadastro de Veículos.");
-            System.out.println("B. Consulta de Veículos");
-            System.out.println("C. ");
+            System.out.println("B. Alocação de Veículos.");
+            System.out.println("C. Consulta de Veículos.");
             System.out.println("D. ");
             System.out.println("E. ");
             option = entrada.next().toLowerCase().charAt(0);
