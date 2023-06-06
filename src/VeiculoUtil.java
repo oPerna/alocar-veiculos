@@ -40,6 +40,7 @@ public class VeiculoUtil {
 
         System.out.println("Insira o ano");
         int ano = entrada.nextInt();
+        entrada.nextLine();
 
         System.out.println("Insira a cor");
         String cor = entrada.nextLine();
