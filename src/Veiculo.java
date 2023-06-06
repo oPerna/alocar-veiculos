@@ -47,7 +47,7 @@ public class Veiculo implements Serializable {
     public long getQuilometragem() {
         return quilometragem;
     }
-    public void setQuilometragem(int quilometragem) {
+    public void setQuilometragem(long quilometragem) {
         this.quilometragem = quilometragem;
     }
 

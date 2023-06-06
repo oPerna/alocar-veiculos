@@ -16,7 +16,7 @@ public class VeiculoUtil {
         System.out.println("D. ");
         System.out.println("E. ");
         System.out.println("----------------------------------------");
-        System.out.println("\nEscolha uma opção");
+        System.out.print("Escolha uma opção: ");
     }
 
     public static boolean placaExiste(String placa) {
@@ -80,7 +80,26 @@ public class VeiculoUtil {
                 veiculosAlocados.add(alocarVeiculo);
             }  
         }
+    }
 
+    public static void entregaVeiculo() {
+        String placa;
+        do {
+            System.out.print("Insira a placa do veiculo: ");
+            placa = entrada.nextLine();
+        } while (!placaExiste(placa));
+        
+        System.out.println("Indique quantos km foram rodados: ");
+        long quimoletrosRodados = entrada.nextInt();
+
+        Veiculo veiculoAux = null;
+        for (Alocacao alocado : veiculosAlocados) {
+            if (alocado.getVeiculo().getPlaca().equals(placa)) {
+                veiculoAux = alocado.getVeiculo();
+            }
+        }
+        
+        veiculoAux.setQuilometragem(veiculoAux.getQuilometragem() + quimoletrosRodados);
     }
 
     public static void main(String[] args) throws Exception {
