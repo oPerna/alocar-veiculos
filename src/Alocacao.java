@@ -1,6 +1,7 @@
 public class Alocacao {
     Veiculo veiculo;
     String nomeCliente;
+    //Rebanho de corno
 
     public Alocacao(Veiculo veiculo, String nomeCliente) {
         this.veiculo = veiculo;
