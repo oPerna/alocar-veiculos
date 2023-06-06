@@ -1,9 +1,10 @@
-public class Alocacao {
+import java.io.Serializable;
+
+public class Locacao implements Serializable {
     Veiculo veiculo;
     String nomeCliente;
-    //Rebanho de corno
 
-    public Alocacao(Veiculo veiculo, String nomeCliente) {
+    public Locacao(Veiculo veiculo, String nomeCliente) {
         this.veiculo = veiculo;
         this.nomeCliente = nomeCliente;
     }
@@ -11,6 +12,7 @@ public class Alocacao {
     public Veiculo getVeiculo() {
         return veiculo;
     }
+
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
     }
@@ -18,9 +20,14 @@ public class Alocacao {
     public String getNomeCliente() {
         return nomeCliente;
     }
+    
     public void setNomeCliente(String nomeCliente) {
         this.nomeCliente = nomeCliente;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Alocacao [veiculo=" + veiculo + ", nomeCliente=" + nomeCliente + "]";
+    }
+
 }

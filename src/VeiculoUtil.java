@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class VeiculoUtil {
     public static List<Veiculo> veiculosRegistrados = new ArrayList<>();
-    public static List<Alocacao> veiculosAlocados = new ArrayList<>();
+    public static List<Locacao> veiculosLocados = new ArrayList<>();
 
     public static Scanner entrada = new Scanner(System.in);
 
@@ -12,9 +12,13 @@ public class VeiculoUtil {
         System.out.println("----------------- MENU -----------------");
         System.out.println("A. Cadastro de Veículos.");
         System.out.println("B. Alocar Veículo.");
-        System.out.println("C. Consulta de Veículos");
-        System.out.println("D. ");
-        System.out.println("E. ");
+        System.out.println("C. Registro de Entrega de Veículo.");
+        System.out.println("D. Consulta de Veículos Cadastrados. (Por Modelo)");
+        System.out.println("E. Consulta de Veículos Cadastrados. (Por Cor Predominante)");
+        System.out.println("F. Consulta de Veículos Cadastrados. (Por Faixa de Quilometragem.)");
+        System.out.println("G. Listagem de Veículos Locados.");
+        System.out.println("H. Listagem de Veículos Não Locados.");
+        System.out.println("I. Encerrar Aplicação.");
         System.out.println("----------------------------------------");
         System.out.print("Escolha uma opção: ");
     }
@@ -28,10 +32,10 @@ public class VeiculoUtil {
         return false;
     }
 
-    public static boolean veiculoAlocado(String placa) {
-        for (Alocacao alocado : veiculosAlocados) {
-            if (alocado.getVeiculo().getPlaca().equals(placa)) {
-                System.out.println("Veículo já alocado.");
+    public static boolean veiculoLocado(String placa) {
+        for (Locacao locado : veiculosLocados) {
+            if (locado.getVeiculo().getPlaca().equals(placa)) {
+                System.out.println("Veículo já Locado.");
                 return true;
             }
         }
@@ -72,12 +76,12 @@ public class VeiculoUtil {
         do {
             System.out.print("insira a placa do veiculo: ");
             placa = entrada.nextLine();
-        } while (!placaExiste(placa) || veiculoAlocado(placa));
+        } while (!placaExiste(placa) || veiculoLocado(placa));
 
         for (Veiculo veiculo : veiculosRegistrados) {
             if (veiculo.getPlaca().equals(placa)) {
-                Alocacao alocarVeiculo = new Alocacao(veiculo, nomeCliente);
-                veiculosAlocados.add(alocarVeiculo);
+                Locacao alocarVeiculo = new Locacao(veiculo, nomeCliente);
+                veiculosLocados.add(alocarVeiculo);
             }  
         }
     }
@@ -93,17 +97,87 @@ public class VeiculoUtil {
         long quimoletrosRodados = entrada.nextInt();
 
         Veiculo veiculoAux = null;
-        for (Alocacao alocado : veiculosAlocados) {
-            if (alocado.getVeiculo().getPlaca().equals(placa)) {
-                veiculoAux = alocado.getVeiculo();
+        for (int i = 0; i < veiculosLocados.size(); i++) {
+            if (veiculosLocados.get(i).getVeiculo().getPlaca().equals(placa)) {
+                veiculoAux = veiculosLocados.get(i).getVeiculo();
+                veiculosLocados.remove(i);
             }
         }
         
         veiculoAux.setQuilometragem(veiculoAux.getQuilometragem() + quimoletrosRodados);
     }
 
-    public static void veiculosAlocados() {
-        System.out.println(veiculosAlocados);
+    /*public static void consultaPorAtributo(String atributo) {
+        System.out.println("CONSULTA POR " + atributo.toUpperCase());
+        System.out.print("Informe " + atributo.toLowerCase() + ": ");
+        String valor = entrada.nextLine();
+        System.out.println("Resultados para " + atributo + " -> " + valor + ": ");
+        for (Veiculo veiculo : veiculosRegistrados) {
+            if (atributo.equals("Modelo") && veiculo.getModelo().equals(valor)) {
+                System.out.println(veiculo);
+            } else if (atributo.equals("Cor") && veiculo.getCor().equals(valor)) {
+                System.out.println(veiculo);
+            }
+        }
+    }*/
+
+    public static void consultaPorModelo() {
+        System.out.println("CONSULTA POR MODELO");
+        System.out.print("Informe o modelo: ");
+        String modelo = entrada.nextLine();
+        System.out.println("Resultados para modelo -> " + modelo + ": ");
+        for (Veiculo veiculo : veiculosRegistrados) {
+            if (veiculo.getModelo().equalsIgnoreCase(modelo)) {
+                System.out.println(veiculo);
+            }
+        }
+    }
+
+    public static void consultaPorCor() {
+        System.out.println("CONSULTA POR COR");
+        System.out.print("Informe a cor: ");
+        String cor = entrada.nextLine();
+        System.out.println("Resultados para cor -> " + cor + ": ");
+        for (Veiculo veiculo : veiculosRegistrados) {
+            if (veiculo.getCor().equalsIgnoreCase(cor)) {
+                System.out.println(veiculo);
+            }
+        }
+    }
+
+    public static void consultaPorQuilometragem() {
+        System.out.println("CONSULTA POR QUILOMETRAGEM");
+        System.out.print("Informe km mínimo: ");
+        float kmMinimo = entrada.nextFloat();
+        System.out.print("Informe km máxima: ");
+        float kmMaximo = entrada.nextFloat();
+        System.out.println("Resultados para quilometragem entre " + kmMinimo + "KM" + " e " + kmMaximo + "KM: ");
+        for (Veiculo veiculo : veiculosRegistrados) {
+            if (veiculo.getQuilometragem() >= kmMinimo && veiculo.getQuilometragem() <= kmMaximo) {
+                System.out.println(veiculo);
+            }
+        }
+    }
+
+    public static void veiculosLocados() {
+        System.out.println(veiculosLocados);
+    }
+
+    public static void veiculosNaoLocados() {
+        List<Veiculo> veiculosNaoLocados = new ArrayList<>();
+        for (Veiculo veiculo : veiculosRegistrados) {
+            boolean encontrado = false;
+            for (Locacao locacao : veiculosLocados) {
+                if (locacao.getVeiculo().equals(veiculo)) {
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) {
+                veiculosNaoLocados.add(veiculo);
+            }
+        }
+        System.out.println(veiculosNaoLocados);
     }
 
     public static void main(String[] args) throws Exception {
@@ -124,16 +198,32 @@ public class VeiculoUtil {
                     break;
 
                 case 'c':
-                    veiculosAlocados();
+                    entregaVeiculo();
                     break;
 
                 case 'd':
+                    consultaPorModelo();
+                    break;
 
+                case 'e':
+                    consultaPorCor();
+                    break;
+
+                case 'f':
+                    consultaPorQuilometragem();
+                    break;
+
+                case 'g':
+                    System.out.println(veiculosLocados);
+                    break;
+
+                case 'h':
+                    veiculosNaoLocados();
                     break;
 
                 default:
                     break;
             }
-        } while (option != 'e');
+        } while (option != 'i');
     }
 }
