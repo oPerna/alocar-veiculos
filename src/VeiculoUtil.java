@@ -1,11 +1,6 @@
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Iterator;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 public class VeiculoUtil {
     public static List<Veiculo> veiculosRegistrados = new ArrayList<>();
@@ -87,6 +82,8 @@ public class VeiculoUtil {
             System.out.println("E. ");
             option = entrada.next().toLowerCase().charAt(0);
 
+            entrada.nextLine();
+            
             switch (option) {
                 case 'a':
                     novoVeiculo();
