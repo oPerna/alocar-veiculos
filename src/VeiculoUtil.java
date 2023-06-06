@@ -30,22 +30,22 @@ public class VeiculoUtil {
         String placa;
 
         do {
-            System.out.println("Insira a placa");
+            System.out.print("Insira a placa: ");
             placa = entrada.nextLine();
 
         } while (placaExiste(placa));
 
-        System.out.println("Insira o modelo");
+        System.out.print("Insira o modelo: ");
         String modelo = entrada.nextLine();
 
-        System.out.println("Insira o ano");
+        System.out.print("Insira o ano: ");
         int ano = entrada.nextInt();
         entrada.nextLine();
 
-        System.out.println("Insira a cor");
+        System.out.print("Insira a cor: ");
         String cor = entrada.nextLine();
 
-        System.out.println("Insira a quilometragem");
+        System.out.print("Insira a quilometragem: ");
         long quilometragem = entrada.nextLong();
 
         Veiculo veiculo = new Veiculo(placa, modelo, ano, cor, quilometragem);
@@ -53,12 +53,12 @@ public class VeiculoUtil {
     }
 
     public static void novaAlocacao() {
-        System.out.println("Insira o nome do cliente");
+        System.out.print("Insira o nome do cliente: ");
         String nomeCliente = entrada.nextLine();
 
         String placa;
         do {
-            System.out.println("insira a placa do veiculo");
+            System.out.print("insira a placa do veiculo: ");
             placa = entrada.nextLine();
             
         } while (!placaExiste(placa));
