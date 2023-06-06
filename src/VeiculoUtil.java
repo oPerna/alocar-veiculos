@@ -22,6 +22,15 @@ public class VeiculoUtil {
         return false;
     }
 
+    public static boolean veiculoAlocado(Veiculo veiculo) {
+        for (Alocacao alocado : veiculosAlocados) {
+            if (alocado.getVeiculo() == veiculo)
+                return true;
+        }
+
+        return false;
+    }
+
     public static void novoVeiculo() {
         String placa;
 
