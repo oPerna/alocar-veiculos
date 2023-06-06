@@ -8,7 +8,14 @@ public class Veiculo implements Serializable {
     private String cor;
     private long quilometragem;
     
-    
+    public Veiculo(String placa, String modelo, int ano, String cor, long quilometragem) {
+        this.placa = placa;
+        this.modelo = modelo;
+        this.ano = ano;
+        this.cor = cor;
+        this.quilometragem = quilometragem;
+    }
+
     public String getPlaca() {
         return placa;
     }
