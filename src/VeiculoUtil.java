@@ -8,13 +8,15 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class VeiculoUtil {
-    public static List<Veiculo> LocacaoDeVeiculos = new ArrayList<>();
+    public static List<Veiculo> veiculosRegistrados = new ArrayList<>();
+    public static List<Alocacao> veiculosAlocados = new ArrayList<>();
+
     public static Scanner entrada = new Scanner(System.in);
 
     public static boolean placaExiste(String placa) {
-        for (Veiculo veiculo : LocacaoDeVeiculos) {
-            if (veiculo.getPlaca().equals(placa)) 
-                return true;   
+        for (Veiculo veiculo : veiculosRegistrados) {
+            if (veiculo.getPlaca().equals(placa))
+                return true;
         }
 
         return false;
@@ -22,20 +24,19 @@ public class VeiculoUtil {
 
     public static void novoVeiculo() {
         String placa;
-        
+
         do {
             System.out.println("Insira a placa");
             placa = entrada.nextLine();
 
         } while (placaExiste(placa));
-        
 
         System.out.println("Insira o modelo");
         String modelo = entrada.nextLine();
-        
+
         System.out.println("Insira o ano");
         int ano = entrada.nextInt();
-        
+
         System.out.println("Insira a cor");
         String cor = entrada.nextLine();
 
@@ -43,40 +44,60 @@ public class VeiculoUtil {
         long quilometragem = entrada.nextLong();
 
         Veiculo veiculo = new Veiculo(placa, modelo, ano, cor, quilometragem);
-        LocacaoDeVeiculos.add(veiculo);
+        veiculosRegistrados.add(veiculo);
     }
-    
+
+    public static void novaAlocacao() {
+        System.out.println("Insira o nome do cliente");
+        String nomeCliente = entrada.nextLine();
+
+        String placa;
+        do {
+            System.out.println("insira a placa do veiculo");
+            placa = entrada.nextLine();
+            
+        } while (!placaExiste(placa));
+
+        for (Veiculo veiculo : veiculosRegistrados) {
+            if (veiculo.getPlaca().equals(placa)) {
+                Alocacao alocarVeiculo = new Alocacao(veiculo, nomeCliente);
+                veiculosAlocados.add(alocarVeiculo);
+            }  
+        }
+
+    }
+
     public static void main(String[] args) throws Exception {
-       char option;
+        char option;
 
-       do {
-           System.out.println("A. Cadastro de Veículos.");
-           System.out.println("B. Consulta de Veículos");
-           System.out.println("C. ");
-           System.out.println("D. ");
-           System.out.println("E. ");
-           option = entrada.next().toLowerCase().charAt(0);
+        do {
+            System.out.println("A. Cadastro de Veículos.");
+            System.out.println("B. Consulta de Veículos");
+            System.out.println("C. ");
+            System.out.println("D. ");
+            System.out.println("E. ");
+            option = entrada.next().toLowerCase().charAt(0);
 
-           switch (option) {
-               case 'a':
-                   
-                   break;
-               
-               case 'b':
+            switch (option) {
+                case 'a':
+                    novoVeiculo();
+                    break;
 
-                   break;
+                case 'b':
 
-               case 'c':
-       
-                   break;
+                    break;
 
-               case 'd':
-       
-                   break;
+                case 'c':
 
-               default:
-                   break;
-           }
-       } while (option != 'e');
+                    break;
+
+                case 'd':
+
+                    break;
+
+                default:
+                    break;
+            }
+        } while (option != 'e');
     }
 }
