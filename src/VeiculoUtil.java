@@ -1,3 +1,9 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -5,6 +11,7 @@ import java.util.Scanner;
 public class VeiculoUtil {
     public static List<Veiculo> veiculosRegistrados = new ArrayList<>();
     public static List<Locacao> veiculosLocados = new ArrayList<>();
+    public static final String caminhoArquivo = "veiculos.obj";
 
     public static Scanner entrada = new Scanner(System.in);
 
@@ -82,7 +89,7 @@ public class VeiculoUtil {
             if (veiculo.getPlaca().equals(placa)) {
                 Locacao alocarVeiculo = new Locacao(veiculo, nomeCliente);
                 veiculosLocados.add(alocarVeiculo);
-            }  
+            }
         }
     }
 
@@ -92,7 +99,7 @@ public class VeiculoUtil {
             System.out.print("Insira a placa do veiculo: ");
             placa = entrada.nextLine();
         } while (!placaExiste(placa));
-        
+
         System.out.println("Indique quantos km foram rodados: ");
         long quimoletrosRodados = entrada.nextInt();
 
@@ -103,23 +110,25 @@ public class VeiculoUtil {
                 veiculosLocados.remove(i);
             }
         }
-        
+
         veiculoAux.setQuilometragem(veiculoAux.getQuilometragem() + quimoletrosRodados);
     }
 
-    /*public static void consultaPorAtributo(String atributo) {
-        System.out.println("CONSULTA POR " + atributo.toUpperCase());
-        System.out.print("Informe " + atributo.toLowerCase() + ": ");
-        String valor = entrada.nextLine();
-        System.out.println("Resultados para " + atributo + " -> " + valor + ": ");
-        for (Veiculo veiculo : veiculosRegistrados) {
-            if (atributo.equals("Modelo") && veiculo.getModelo().equals(valor)) {
-                System.out.println(veiculo);
-            } else if (atributo.equals("Cor") && veiculo.getCor().equals(valor)) {
-                System.out.println(veiculo);
-            }
-        }
-    }*/
+    /*
+     * public static void consultaPorAtributo(String atributo) {
+     * System.out.println("CONSULTA POR " + atributo.toUpperCase());
+     * System.out.print("Informe " + atributo.toLowerCase() + ": ");
+     * String valor = entrada.nextLine();
+     * System.out.println("Resultados para " + atributo + " -> " + valor + ": ");
+     * for (Veiculo veiculo : veiculosRegistrados) {
+     * if (atributo.equals("Modelo") && veiculo.getModelo().equals(valor)) {
+     * System.out.println(veiculo);
+     * } else if (atributo.equals("Cor") && veiculo.getCor().equals(valor)) {
+     * System.out.println(veiculo);
+     * }
+     * }
+     * }
+     */
 
     public static void consultaPorModelo() {
         System.out.println("CONSULTA POR MODELO");
@@ -180,14 +189,71 @@ public class VeiculoUtil {
         System.out.println(veiculosNaoLocados);
     }
 
-    public static void main(String[] args) throws Exception {
-        char option;
+    public static void salvarVeiculos() {
 
+        System.out.println("SALVANDO VEÍCULOS ...");
+
+        try {
+            // fluxo de escrita em arquivo
+            FileOutputStream fluxoArquivo = new FileOutputStream(caminhoArquivo);
+            // fluxo de escrita de objetos baseado em fluxo de escrita de arquivo
+            ObjectOutputStream fluxoObjetos = new ObjectOutputStream(fluxoArquivo);
+
+            Dados data = new Dados(veiculosRegistrados, veiculosLocados);
+            // escrita de lista de funcionários
+            fluxoObjetos.writeObject(data);
+
+            // fechamento de fluxos
+            fluxoObjetos.close();
+            fluxoArquivo.close();
+
+            System.out.println("Veículos salvos!");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar veículos: " + e.getMessage());
+            e.printStackTrace();
+        }
+        System.out.println();
+
+    }
+
+    public static void recuperarVeiculos() {
+        File arquivo = new File(caminhoArquivo);
+
+        if (arquivo.exists()) {
+            try {
+                FileInputStream fluxoArquivo = new FileInputStream(caminhoArquivo);
+                ObjectInputStream fluxoObjetos = new ObjectInputStream(fluxoArquivo);
+
+                Dados data = (Dados) fluxoObjetos.readObject();
+
+                veiculosRegistrados = data.getVeiculosRegistrados();
+                veiculosLocados = data.getVeiculosLocados();
+
+                fluxoObjetos.close();
+                fluxoArquivo.close();
+
+                System.out.println("Veículos recuperados!");
+            } catch (IOException e) {
+                System.out.println("Erro ao ler veículos: " + e.getMessage());
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                System.out.println("Erro ao ler veículos: " + e.getMessage());
+                e.printStackTrace();
+            }
+            System.out.println();
+        } else {
+            System.out.println("Não há veículos a serem recuperados!");
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        recuperarVeiculos();
+        char option;
         do {
             menu();
             option = entrada.next().toLowerCase().charAt(0);
             entrada.nextLine();
-            
+
             switch (option) {
                 case 'a':
                     novoVeiculo();
@@ -225,5 +291,6 @@ public class VeiculoUtil {
                     break;
             }
         } while (option != 'i');
+        salvarVeiculos();
     }
 }
