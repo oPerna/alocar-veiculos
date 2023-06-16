@@ -58,7 +58,7 @@ public class Veiculo implements Serializable {
 
     @Override
     public String toString() {
-        return "Veiculo [placa=" + placa + ", modelo=" + modelo + ", ano=" + ano + ", cor=" + cor + ", quilometragem="
+        return "Veiculo [placa = " + placa + ", modelo = " + modelo + ", ano = " + ano + ", cor = " + cor + ", quilometragem = "
                 + quilometragem + "]";
     }
 

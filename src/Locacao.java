@@ -27,7 +27,7 @@ public class Locacao implements Serializable {
 
     @Override
     public String toString() {
-        return "Alocacao [veiculo=" + veiculo + ", nomeCliente=" + nomeCliente + "]";
+        return "Alocacao [veiculo=" + veiculo + ", nomeCliente=" + nomeCliente + "]\n";
     }
 
 }

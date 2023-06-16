@@ -16,18 +16,42 @@ public class VeiculoUtil {
     public static Scanner entrada = new Scanner(System.in);
 
     public static void menu() {
-        System.out.println("----------------- MENU -----------------");
-        System.out.println("A. Cadastro de Veículos.");
-        System.out.println("B. Alocar Veículo.");
-        System.out.println("C. Registro de Entrega de Veículo.");
-        System.out.println("D. Consulta de Veículos Cadastrados. (Por Modelo)");
-        System.out.println("E. Consulta de Veículos Cadastrados. (Por Cor Predominante)");
-        System.out.println("F. Consulta de Veículos Cadastrados. (Por Faixa de Quilometragem.)");
-        System.out.println("G. Listagem de Veículos Locados.");
-        System.out.println("H. Listagem de Veículos Não Locados.");
-        System.out.println("I. Encerrar Aplicação.");
-        System.out.println("----------------------------------------");
+        System.out.println("\n|------------------ MENU ------------------|");
+        System.out.println("|A. Cadastro de Veículos.                  |");
+        System.out.println("|B. Alocar Veículo.                        |");
+        System.out.println("|C. Registro de Entrega de Veículo.        |");
+        System.out.println("|D. Consulta de Veículos Cadastrados.      |");
+        System.out.println("|E. Listagem de Veículos Locados.          |");
+        System.out.println("|F. Listagem de Veículos Não Locados.      |");
+        System.out.println("|X. Encerrar Aplicação.                    |");
+        System.out.println("|------------------------------------------|");
         System.out.print("Escolha uma opção: ");
+    }
+
+    public static void subMenu() {
+        System.out.println("\n _________________________________________________________________");
+        System.out.println("|                            SUBMENU                              |");
+        System.out.println("| A. Consulta de Veículos Cadastrados por Modelo                  |");
+        System.out.println("| B. Consulta de Veículos Cadastrados por Cor Predominante        |");
+        System.out.println("| C. Consulta de Veículos Cadastrados por Faixa de Quilometragem  |");
+        System.out.println("|_________________________________________________________________|");
+        System.out.print("Escolha uma opção: ");
+
+        char subOption = entrada.next().toLowerCase().charAt(0);
+        entrada.nextLine();
+        switch (subOption) {
+            case 'a':
+                consultaPorModelo();
+                break;
+
+            case 'b':
+                consultaPorCor();
+                break;
+
+            case 'c':
+                consultaPorQuilometragem();
+                break;
+        }
     }
 
     public static boolean placaExiste(String placa) {
@@ -42,7 +66,6 @@ public class VeiculoUtil {
     public static boolean veiculoLocado(String placa) {
         for (Locacao locado : veiculosLocados) {
             if (locado.getVeiculo().getPlaca().equals(placa)) {
-                System.out.println("Veículo já Locado.");
                 return true;
             }
         }
@@ -73,6 +96,7 @@ public class VeiculoUtil {
 
         Veiculo veiculo = new Veiculo(placa, modelo, ano, cor, quilometragem);
         veiculosRegistrados.add(veiculo);
+        System.err.println("ERRO. Veículo registrado.");
     }
 
     public static void novaAlocacao() {
@@ -80,55 +104,49 @@ public class VeiculoUtil {
         String nomeCliente = entrada.nextLine();
 
         String placa;
-        do {
-            System.out.print("insira a placa do veiculo: ");
-            placa = entrada.nextLine();
-        } while (!placaExiste(placa) || veiculoLocado(placa));
-
-        for (Veiculo veiculo : veiculosRegistrados) {
-            if (veiculo.getPlaca().equals(placa)) {
-                Locacao alocarVeiculo = new Locacao(veiculo, nomeCliente);
-                veiculosLocados.add(alocarVeiculo);
+        System.out.print("Insira a placa do veiculo: ");
+        placa = entrada.nextLine();
+        if (placaExiste(placa)) {
+            if (!veiculoLocado(placa)) {
+                for (Veiculo veiculo : veiculosRegistrados) {
+                    if (veiculo.getPlaca().equals(placa)) {
+                        Locacao alocarVeiculo = new Locacao(veiculo, nomeCliente);
+                        veiculosLocados.add(alocarVeiculo);
+                    }
+                }
+                System.out.println("Veículo de placa: " + placa + " foi locado.");
+            } else {
+                System.err.println("ERRO. Veículo já locado.");
             }
+        } else {
+            System.err.println("ERRO. Veículo não existe.");
         }
     }
 
     public static void entregaVeiculo() {
         String placa;
-        do {
-            System.out.print("Insira a placa do veiculo: ");
-            placa = entrada.nextLine();
-        } while (!placaExiste(placa));
-
-        System.out.println("Indique quantos km foram rodados: ");
-        long quimoletrosRodados = entrada.nextInt();
-
-        Veiculo veiculoAux = null;
-        for (int i = 0; i < veiculosLocados.size(); i++) {
-            if (veiculosLocados.get(i).getVeiculo().getPlaca().equals(placa)) {
-                veiculoAux = veiculosLocados.get(i).getVeiculo();
-                veiculosLocados.remove(i);
+        System.out.print("Insira a placa do veiculo: ");
+        placa = entrada.nextLine();
+        
+        if (placaExiste(placa)) {
+            if (veiculoLocado(placa)) {
+                System.out.println("Indique quantos km foram rodados: ");
+                long quimoletrosRodados = entrada.nextInt();
+                Veiculo veiculoAux = null;
+                for (int i = 0; i < veiculosLocados.size(); i++) {
+                    if (veiculosLocados.get(i).getVeiculo().getPlaca().equals(placa)) {
+                        veiculoAux = veiculosLocados.get(i).getVeiculo();
+                        veiculosLocados.remove(i);
+                    }
+                }
+                veiculoAux.setQuilometragem(veiculoAux.getQuilometragem() + quimoletrosRodados);
+            } else {
+                System.err.println("ERRO. Veículo não locado.");
             }
+        } else {
+            System.err.println("ERRO. Veículo não existe.");
         }
-
-        veiculoAux.setQuilometragem(veiculoAux.getQuilometragem() + quimoletrosRodados);
     }
-
-    /*
-     * public static void consultaPorAtributo(String atributo) {
-     * System.out.println("CONSULTA POR " + atributo.toUpperCase());
-     * System.out.print("Informe " + atributo.toLowerCase() + ": ");
-     * String valor = entrada.nextLine();
-     * System.out.println("Resultados para " + atributo + " -> " + valor + ": ");
-     * for (Veiculo veiculo : veiculosRegistrados) {
-     * if (atributo.equals("Modelo") && veiculo.getModelo().equals(valor)) {
-     * System.out.println(veiculo);
-     * } else if (atributo.equals("Cor") && veiculo.getCor().equals(valor)) {
-     * System.out.println(veiculo);
-     * }
-     * }
-     * }
-     */
 
     public static void consultaPorModelo() {
         System.out.println("CONSULTA POR MODELO");
@@ -194,16 +212,12 @@ public class VeiculoUtil {
         System.out.println("SALVANDO VEÍCULOS ...");
 
         try {
-            // fluxo de escrita em arquivo
             FileOutputStream fluxoArquivo = new FileOutputStream(caminhoArquivo);
-            // fluxo de escrita de objetos baseado em fluxo de escrita de arquivo
             ObjectOutputStream fluxoObjetos = new ObjectOutputStream(fluxoArquivo);
 
             Dados data = new Dados(veiculosRegistrados, veiculosLocados);
-            // escrita de lista de funcionários
             fluxoObjetos.writeObject(data);
 
-            // fechamento de fluxos
             fluxoObjetos.close();
             fluxoArquivo.close();
 
@@ -242,7 +256,7 @@ public class VeiculoUtil {
             }
             System.out.println();
         } else {
-            System.out.println("Não há veículos a serem recuperados!");
+            System.err.println("ERRO. Não há veículos a serem recuperados!");
         }
     }
 
@@ -268,29 +282,21 @@ public class VeiculoUtil {
                     break;
 
                 case 'd':
-                    consultaPorModelo();
+                    subMenu();
                     break;
 
                 case 'e':
-                    consultaPorCor();
-                    break;
-
-                case 'f':
-                    consultaPorQuilometragem();
-                    break;
-
-                case 'g':
                     System.out.println(veiculosLocados);
                     break;
 
-                case 'h':
+                case 'f':
                     veiculosNaoLocados();
                     break;
 
                 default:
                     break;
             }
-        } while (option != 'i');
+        } while (option != 'x');
         salvarVeiculos();
     }
 }
