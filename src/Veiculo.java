@@ -62,4 +62,7 @@ public class Veiculo implements Serializable {
                 + quilometragem + "]";
     }
 
+    public void printFormatado() {
+        System.out.printf("| %10s | %-12s | %-5d | %-15s | %-13s |\n", getPlaca(), getModelo(), getAno(), getCor(), getQuilometragem() + "km");
+    }
 }

@@ -78,7 +78,9 @@ public class VeiculoUtil {
         do {
             System.out.print("Insira a placa: ");
             placa = entrada.nextLine();
-
+            if (placaExiste(placa)) {
+                System.err.println("Já existe um veículo cadastrado com essa placa.");
+            }
         } while (placaExiste(placa));
 
         System.out.print("Insira o modelo: ");
@@ -96,7 +98,7 @@ public class VeiculoUtil {
 
         Veiculo veiculo = new Veiculo(placa, modelo, ano, cor, quilometragem);
         veiculosRegistrados.add(veiculo);
-        System.err.println("ERRO. Veículo registrado.");
+        System.err.println("Veículo de placa " + placa + " registrado.");
     }
 
     public static void novaAlocacao() {
@@ -127,11 +129,11 @@ public class VeiculoUtil {
         String placa;
         System.out.print("Insira a placa do veiculo: ");
         placa = entrada.nextLine();
-        
+
         if (placaExiste(placa)) {
             if (veiculoLocado(placa)) {
                 System.out.println("Indique quantos km foram rodados: ");
-                long quimoletrosRodados = entrada.nextInt();
+                long quimoletrosRodados = entrada.nextLong();
                 Veiculo veiculoAux = null;
                 for (int i = 0; i < veiculosLocados.size(); i++) {
                     if (veiculosLocados.get(i).getVeiculo().getPlaca().equals(placa)) {
@@ -153,9 +155,10 @@ public class VeiculoUtil {
         System.out.print("Informe o modelo: ");
         String modelo = entrada.nextLine();
         System.out.println("Resultados para modelo -> " + modelo + ": ");
+        System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
         for (Veiculo veiculo : veiculosRegistrados) {
             if (veiculo.getModelo().equalsIgnoreCase(modelo)) {
-                System.out.println(veiculo);
+                veiculo.printFormatado();
             }
         }
     }
@@ -165,9 +168,10 @@ public class VeiculoUtil {
         System.out.print("Informe a cor: ");
         String cor = entrada.nextLine();
         System.out.println("Resultados para cor -> " + cor + ": ");
+        System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
         for (Veiculo veiculo : veiculosRegistrados) {
             if (veiculo.getCor().equalsIgnoreCase(cor)) {
-                System.out.println(veiculo);
+                veiculo.printFormatado();
             }
         }
     }
@@ -179,15 +183,23 @@ public class VeiculoUtil {
         System.out.print("Informe km máxima: ");
         float kmMaximo = entrada.nextFloat();
         System.out.println("Resultados para quilometragem entre " + kmMinimo + "KM" + " e " + kmMaximo + "KM: ");
+        System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
         for (Veiculo veiculo : veiculosRegistrados) {
             if (veiculo.getQuilometragem() >= kmMinimo && veiculo.getQuilometragem() <= kmMaximo) {
-                System.out.println(veiculo);
+                veiculo.printFormatado();
             }
-        }
+        }   
     }
 
     public static void veiculosLocados() {
-        System.out.println(veiculosLocados);
+        if (veiculosLocados.size() > 0) {
+            System.out.printf("| %20s | %-10s | %-12s | %-5s | %-15s | %-13s |\n", "NOME DO CLIENTE", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
+            for (Locacao locado : veiculosLocados) {
+                locado.printFormatado();
+            }
+        } else {
+            System.err.println("ERRO. Não há veículos locados.");
+        }
     }
 
     public static void veiculosNaoLocados() {
@@ -204,7 +216,10 @@ public class VeiculoUtil {
                 veiculosNaoLocados.add(veiculo);
             }
         }
-        System.out.println(veiculosNaoLocados);
+        System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
+        for (Veiculo veiculo : veiculosNaoLocados) {
+            veiculo.printFormatado();
+        }
     }
 
     public static void salvarVeiculos() {
@@ -286,7 +301,7 @@ public class VeiculoUtil {
                     break;
 
                 case 'e':
-                    System.out.println(veiculosLocados);
+                    veiculosLocados();
                     break;
 
                 case 'f':

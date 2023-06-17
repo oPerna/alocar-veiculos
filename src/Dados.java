@@ -25,4 +25,5 @@ public class Dados implements Serializable {
     public void setVeiculosLocados(List<Locacao> veiculosLocados) {
         this.veiculosLocados = veiculosLocados;
     }
+
 }

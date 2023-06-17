@@ -30,4 +30,8 @@ public class Locacao implements Serializable {
         return "Alocacao [veiculo=" + veiculo + ", nomeCliente=" + nomeCliente + "]\n";
     }
 
+    public void printFormatado() {
+        System.out.printf("| %20s | %-10s | %-12s | %-5d | %-15s | %-13s |\n", getNomeCliente(), veiculo.getPlaca(), veiculo.getModelo(), veiculo.getAno(), veiculo.getCor(), veiculo.getQuilometragem() + "km");
+    }
+
 }
