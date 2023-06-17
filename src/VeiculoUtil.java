@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -83,22 +84,28 @@ public class VeiculoUtil {
             }
         } while (placaExiste(placa));
 
-        System.out.print("Insira o modelo: ");
-        String modelo = entrada.nextLine();
+        try {
+            System.out.print("Insira o modelo: ");
+            String modelo = entrada.nextLine();
 
-        System.out.print("Insira o ano: ");
-        int ano = entrada.nextInt();
-        entrada.nextLine();
+            System.out.print("Insira o ano: ");
+            int ano = entrada.nextInt();
+            entrada.nextLine();
 
-        System.out.print("Insira a cor: ");
-        String cor = entrada.nextLine();
+            System.out.print("Insira a cor: ");
+            String cor = entrada.nextLine();
 
-        System.out.print("Insira a quilometragem: ");
-        long quilometragem = entrada.nextLong();
+            System.out.print("Insira a quilometragem: ");
+            long quilometragem = entrada.nextLong();  
 
-        Veiculo veiculo = new Veiculo(placa, modelo, ano, cor, quilometragem);
-        veiculosRegistrados.add(veiculo);
-        System.err.println("Veículo de placa " + placa + " registrado.");
+            Veiculo veiculo = new Veiculo(placa, modelo, ano, cor, quilometragem);
+            veiculosRegistrados.add(veiculo);
+            
+            System.out.println("Veículo de placa " + placa + " registrado.");
+        } catch (InputMismatchException ime) {
+            System.err.println("ERRO. Entrada inválida. Tente novamente!");
+            entrada.nextLine();
+        }
     }
 
     public static void novaAlocacao() {
@@ -116,7 +123,7 @@ public class VeiculoUtil {
                         veiculosLocados.add(alocarVeiculo);
                     }
                 }
-                System.out.println("Veículo de placa: " + placa + " foi locado.");
+                System.out.println("Veículo de placa " + placa + " foi locado.");
             } else {
                 System.err.println("ERRO. Veículo já locado.");
             }
@@ -132,7 +139,7 @@ public class VeiculoUtil {
 
         if (placaExiste(placa)) {
             if (veiculoLocado(placa)) {
-                System.out.println("Indique quantos km foram rodados: ");
+                System.out.print("Indique quantos km foram rodados: ");
                 long quimoletrosRodados = entrada.nextLong();
                 Veiculo veiculoAux = null;
                 for (int i = 0; i < veiculosLocados.size(); i++) {
@@ -142,6 +149,7 @@ public class VeiculoUtil {
                     }
                 }
                 veiculoAux.setQuilometragem(veiculoAux.getQuilometragem() + quimoletrosRodados);
+                System.out.println("Veículo de placa " + placa + " entregue com " + quimoletrosRodados + "km rodados");
             } else {
                 System.err.println("ERRO. Veículo não locado.");
             }
@@ -154,12 +162,18 @@ public class VeiculoUtil {
         System.out.println("CONSULTA POR MODELO");
         System.out.print("Informe o modelo: ");
         String modelo = entrada.nextLine();
-        System.out.println("Resultados para modelo -> " + modelo + ": ");
-        System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
+        boolean veiculoEncontrado = false;
         for (Veiculo veiculo : veiculosRegistrados) {
             if (veiculo.getModelo().equalsIgnoreCase(modelo)) {
+                if (!veiculoEncontrado) {
+                    System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
+                }
                 veiculo.printFormatado();
+                veiculoEncontrado = true;
             }
+        }
+        if (!veiculoEncontrado) {
+            System.err.println("ERRO. Não há veículos com o modelo " + modelo);
         }
     }
 
@@ -167,28 +181,40 @@ public class VeiculoUtil {
         System.out.println("CONSULTA POR COR");
         System.out.print("Informe a cor: ");
         String cor = entrada.nextLine();
-        System.out.println("Resultados para cor -> " + cor + ": ");
-        System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
+        boolean veiculoEncontrado = false;
         for (Veiculo veiculo : veiculosRegistrados) {
             if (veiculo.getCor().equalsIgnoreCase(cor)) {
+                if (!veiculoEncontrado) {
+                    System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
+                }
                 veiculo.printFormatado();
+                veiculoEncontrado = true;
             }
+        }
+        if (!veiculoEncontrado) {
+            System.err.println("ERRO. Não há veículos com a cor " + cor);
         }
     }
 
     public static void consultaPorQuilometragem() {
         System.out.println("CONSULTA POR QUILOMETRAGEM");
         System.out.print("Informe km mínimo: ");
-        float kmMinimo = entrada.nextFloat();
+        long kmMinimo = entrada.nextLong();
         System.out.print("Informe km máxima: ");
-        float kmMaximo = entrada.nextFloat();
-        System.out.println("Resultados para quilometragem entre " + kmMinimo + "KM" + " e " + kmMaximo + "KM: ");
-        System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
+        long kmMaximo = entrada.nextLong();
+        boolean veiculoEncontrado = false;
         for (Veiculo veiculo : veiculosRegistrados) {
             if (veiculo.getQuilometragem() >= kmMinimo && veiculo.getQuilometragem() <= kmMaximo) {
+                if (!veiculoEncontrado) {
+                    System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
+                }
                 veiculo.printFormatado();
+                veiculoEncontrado = true;
             }
-        }   
+        }
+        if (!veiculoEncontrado) {
+            System.err.println("ERRO. Não há veículos com quilometragem entre " + kmMinimo + "km e " + kmMaximo + "km");
+        }
     }
 
     public static void veiculosLocados() {
@@ -216,9 +242,13 @@ public class VeiculoUtil {
                 veiculosNaoLocados.add(veiculo);
             }
         }
-        System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
-        for (Veiculo veiculo : veiculosNaoLocados) {
-            veiculo.printFormatado();
+        if (veiculosNaoLocados.size() > 0) {
+            System.out.printf("| %10s | %-12s | %-5s | %-15s | %-13s |\n", "PLACA", "MODELO", "ANO", "COR", "QUILOMETRAGEM");
+            for (Veiculo veiculo : veiculosNaoLocados) {
+                veiculo.printFormatado();
+            }
+        } else {
+            System.err.println("ERRO. Não há veículos não locados.");
         }
     }
 
