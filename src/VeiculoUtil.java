@@ -17,40 +17,57 @@ public class VeiculoUtil {
     public static Scanner entrada = new Scanner(System.in);
 
     public static void menu() {
-        System.out.println("\n|------------------ MENU ------------------|");
-        System.out.println("|A. Cadastro de Veículos.                  |");
-        System.out.println("|B. Alocar Veículo.                        |");
-        System.out.println("|C. Registro de Entrega de Veículo.        |");
-        System.out.println("|D. Consulta de Veículos Cadastrados.      |");
-        System.out.println("|E. Listagem de Veículos Locados.          |");
-        System.out.println("|F. Listagem de Veículos Não Locados.      |");
-        System.out.println("|X. Encerrar Aplicação.                    |");
-        System.out.println("|------------------------------------------|");
-        System.out.print("Escolha uma opção: ");
+        System.out.println("\n+----------------------------------------+");
+        System.out.println("|       MENU ~ LOCAÇÃO DE VEÍCULOS       |");
+        System.out.println("+----------------------------------------+");
+        System.out.println("| A. Cadastro de Veículos                |");
+        System.out.println("| B. Alocar Veículo                      |");
+        System.out.println("| C. Registro de Entrega de Veículo      |");
+        System.out.println("| D. Consulta de Veículos Cadastrados    |");
+        System.out.println("| E. Listagem de Veículos Locados        |");
+        System.out.println("| F. Listagem de Veículos Não Locados    |");
+        System.out.println("| X. Encerrar Aplicação                  |");
+        System.out.println("+----------------------------------------+");
+        System.out.print("Selecione uma opção: ");
     }
 
-    public static void subMenu() {
-        System.out.println("\n _________________________________________________________________");
-        System.out.println("|                            SUBMENU                              |");
-        System.out.println("| A. Consulta de Veículos Cadastrados por Modelo                  |");
-        System.out.println("| B. Consulta de Veículos Cadastrados por Cor Predominante        |");
-        System.out.println("| C. Consulta de Veículos Cadastrados por Faixa de Quilometragem  |");
-        System.out.println("|_________________________________________________________________|");
-        System.out.print("Escolha uma opção: ");
 
-        char subOption = entrada.next().toLowerCase().charAt(0);
+    public static void menuConsulta() {
+        System.out.println("\n+----------------------------------------+");
+        System.out.println("|    CONSULTA DE VEÍCULOS CADASTRADOS    |");
+        System.out.println("+----------------------------------------+");
+        System.out.println("| 1. Por Modelo                          |");
+        System.out.println("| 2. Por Cor Predominante                |");
+        System.out.println("| 3. Por Faixa de Quilometragem          |");
+        System.out.println("+----------------------------------------+");
+        int subOption = 0;
+        boolean opcaoValida = false;
+        do {
+            try {
+                System.out.print("Escolha o número relativo a consulta: ");
+                subOption = entrada.nextInt();
+                opcaoValida = true;
+            } catch (InputMismatchException ime) {
+                System.err.println("ERRO. Considere escolher entre 1 e 3.");
+                entrada.nextLine();
+            }
+        } while (!opcaoValida);
         entrada.nextLine();
         switch (subOption) {
-            case 'a':
+            case 1:
                 consultaPorModelo();
                 break;
 
-            case 'b':
+            case 2:
                 consultaPorCor();
                 break;
 
-            case 'c':
+            case 3:
                 consultaPorQuilometragem();
+                break;
+            
+            default:
+                System.err.println("ERRO. Número de Opção Inválido.");
                 break;
         }
     }
@@ -299,7 +316,6 @@ public class VeiculoUtil {
                 System.out.println("Erro ao ler veículos: " + e.getMessage());
                 e.printStackTrace();
             }
-            System.out.println();
         } else {
             System.err.println("ERRO. Não há veículos a serem recuperados!");
         }
@@ -327,7 +343,7 @@ public class VeiculoUtil {
                     break;
 
                 case 'd':
-                    subMenu();
+                    menuConsulta();
                     break;
 
                 case 'e':
