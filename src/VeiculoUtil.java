@@ -44,11 +44,15 @@ public class VeiculoUtil {
         boolean opcaoValida = false;
         do {
             try {
-                System.out.print("Escolha o número relativo a consulta: ");
+                System.out.println("+----------------------------------------+");
+                System.out.println("| Escolha o número relativo a consulta:  |");
+                System.out.println("+----------------------------------------+");
                 subOption = entrada.nextInt();
                 opcaoValida = true;
             } catch (InputMismatchException ime) {
-                System.err.println("ERRO. Considere escolher entre 1 e 3.");
+                System.out.println("+----------------------------------------+");
+                System.err.println("| ERRO. CONSIDERE ESCOLHER DE 1 A 3.     |");
+                System.out.println("+----------------------------------------+");
                 entrada.nextLine();
             }
         } while (!opcaoValida);
@@ -67,7 +71,9 @@ public class VeiculoUtil {
                 break;
             
             default:
-                System.err.println("ERRO. Número de Opção Inválido.");
+                System.out.println("+----------------------------------------+");
+                System.err.println("| ERRO. NUMERO DE OPÇÃO INVALIDA         |");
+                System.out.println("+----------------------------------------+");
                 break;
         }
     }
@@ -97,7 +103,7 @@ public class VeiculoUtil {
             System.out.print("Insira a placa: ");
             placa = entrada.nextLine();
             if (placaExiste(placa)) {
-                System.err.println("Já existe um veículo cadastrado com essa placa.");
+                System.err.println("Já existe um veículo cadastrado com essa placa!");
             }
         } while (placaExiste(placa));
 
@@ -120,7 +126,9 @@ public class VeiculoUtil {
             
             System.out.println("Veículo de placa " + placa + " registrado.");
         } catch (InputMismatchException ime) {
-            System.err.println("ERRO. Entrada inválida. Tente novamente!");
+            System.out.println("+----------------------------------------+");
+            System.err.println("|ERRO. ENTRADA INVALIDA. TENTE NOVAMENTE!|");
+            System.out.println("+----------------------------------------+");
             entrada.nextLine();
         }
     }
@@ -142,10 +150,15 @@ public class VeiculoUtil {
                 }
                 System.out.println("Veículo de placa " + placa + " foi locado.");
             } else {
-                System.err.println("ERRO. Veículo já locado.");
+                System.out.println("+----------------------------------------+");
+                System.err.println("|ERRO. Veículo já locado.                |");
+                System.out.println("+----------------------------------------+");
             }
         } else {
-            System.err.println("ERRO. Veículo não existe.");
+            System.out.println("+----------------------------------------+");
+            System.err.println("|ERRO. Veículo não existe.               |");
+            System.out.println("+----------------------------------------+");                
+
         }
     }
 
@@ -168,10 +181,14 @@ public class VeiculoUtil {
                 veiculoAux.setQuilometragem(veiculoAux.getQuilometragem() + quimoletrosRodados);
                 System.out.println("Veículo de placa " + placa + " entregue com " + quimoletrosRodados + "km rodados");
             } else {
-                System.err.println("ERRO. Veículo não locado.");
+                System.out.println("+----------------------------------------+");
+                System.err.println("|ERRO. Veículo não locado.               |");
+                System.out.println("+----------------------------------------+");
             }
         } else {
-            System.err.println("ERRO. Veículo não existe.");
+            System.out.println("+----------------------------------------+");
+            System.err.println("|ERRO. Veículo não existe.               |");
+            System.out.println("+----------------------------------------+");
         }
     }
 
@@ -283,7 +300,9 @@ public class VeiculoUtil {
             }
             System.out.println("+---------------------------------------------------------------------+");
         } else {
-            System.err.println("ERRO. Não há veículos não locados.");
+            System.out.println("+----------------------------------------+");
+            System.err.println("|ERRO. Não há veículos não locados.      |");
+            System.out.println("+----------------------------------------+");
         }
     }
 
@@ -303,7 +322,9 @@ public class VeiculoUtil {
 
             System.out.println("Veículos salvos!");
         } catch (IOException e) {
-            System.out.println("Erro ao salvar veículos: " + e.getMessage());
+            System.out.println("+----------------------------------------+");
+            System.out.println("|Erro ao salvar veículos: " + e.getMessage() + "|");
+            System.out.println("+----------------------------------------+");
             e.printStackTrace();
         }
         System.out.println();
@@ -335,7 +356,9 @@ public class VeiculoUtil {
                 e.printStackTrace();
             }
         } else {
+            System.out.println("+----------------------------------------+");
             System.err.println("ERRO. Não há veículos a serem recuperados!");
+            System.out.println("+----------------------------------------+");
         }
     }
 
