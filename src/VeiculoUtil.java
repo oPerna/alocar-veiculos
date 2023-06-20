@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class VeiculoUtil {
-    public static List<Veiculo> veiculosRegistrados = new ArrayList<>();
-    public static List<Locacao> veiculosLocados = new ArrayList<>();
-    public static final String caminhoArquivo = "veiculos.obj";
+    private static List<Veiculo> veiculosRegistrados = new ArrayList<>();
+    private static List<Locacao> veiculosLocados = new ArrayList<>();
+    private static final String caminhoArquivo = "veiculos.obj";
 
     public static Scanner entrada = new Scanner(System.in);
 
