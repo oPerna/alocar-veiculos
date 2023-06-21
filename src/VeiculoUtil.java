@@ -80,7 +80,7 @@ public class VeiculoUtil {
 
     public static boolean placaExiste(String placa) {
         for (Veiculo veiculo : veiculosRegistrados) {
-            if (veiculo.getPlaca().equals(placa))
+            if (veiculo.getPlaca().equalsIgnoreCase(placa))
                 return true;
         }
 
@@ -89,7 +89,7 @@ public class VeiculoUtil {
 
     public static boolean veiculoLocado(String placa) {
         for (Locacao locado : veiculosLocados) {
-            if (locado.getVeiculo().getPlaca().equals(placa)) {
+            if (locado.getVeiculo().getPlaca().equalsIgnoreCase(placa)) {
                 return true;
             }
         }

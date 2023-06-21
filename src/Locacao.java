@@ -1,8 +1,8 @@
 import java.io.Serializable;
 
 public class Locacao implements Serializable {
-    Veiculo veiculo;
-    String nomeCliente;
+    private Veiculo veiculo;
+    private String nomeCliente;
 
     public Locacao(Veiculo veiculo, String nomeCliente) {
         this.veiculo = veiculo;
