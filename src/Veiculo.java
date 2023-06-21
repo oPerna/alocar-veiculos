@@ -56,12 +56,6 @@ public class Veiculo implements Serializable {
         this.quilometragem = quilometragem;
     }
 
-    @Override
-    public String toString() {
-        return "Veiculo [placa = " + placa + ", modelo = " + modelo + ", ano = " + ano + ", cor = " + cor + ", quilometragem = "
-                + quilometragem + "]";
-    }
-
     public void printFormatado() {
         System.out.printf("| %10s | %-12s | %-5d | %-15s | %-13s |\n", getPlaca(), getModelo(), getAno(), getCor(), getQuilometragem() + "km");
     }
