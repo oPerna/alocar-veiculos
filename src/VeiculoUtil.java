@@ -20,7 +20,7 @@ public class VeiculoUtil {
         System.out.println("\n+----------------------------------------+");
         System.out.println("|       MENU ~ LOCAÇÃO DE VEÍCULOS       |");
         System.out.println("+----------------------------------------+");
-        System.out.println("| A. Cadastro de Veículos   JOÂO HENRIQUE             |");
+        System.out.println("| A. Cadastro de Veículos                |");
         System.out.println("| B. Alocar Veículo                      |");
         System.out.println("| C. Registro de Entrega de Veículo      |");
         System.out.println("| D. Consulta de Veículos Cadastrados    |");
